@@ -2,6 +2,7 @@
 
 import json
 import requests
+import math
 
 host = 'host.site'
 api_key = 'api_key_from_plexpy'
@@ -13,7 +14,7 @@ if ssl == 'true':
 if ssl == 'false':
     http = 'http'
 
-url = http + "://" + host + url_base + "/api/v2?apikey=" + api_key + "&cmd=get_activity"
+url = http + "://" + host + "/" + url_base + "/api/v2?apikey=" + api_key + "&cmd=get_activity"
 
 requests.packages.urllib3.disable_warnings()
 
@@ -25,5 +26,15 @@ decoded = json.loads(json_input)
 
 stream_count = decoded['response']['data']['stream_count']
 stream_count = int(stream_count)
+bandwidthTotal = 0
+print("Stream Count: %.0f" % stream_count)
 
-print(stream_count)
+for i in range(0, stream_count):
+    transcode = decoded['response']['data']['sessions'][i]['transcode_decision']
+    user = decoded['response']['data']['sessions'][i]['user']
+    bandwidth = decoded['response']['data']['sessions'][i]['bandwidth']  
+    bandwidthTotal = float(bandwidthTotal) + float(bandwidth) / 1024
+    print(transcode)
+    print(user)
+
+print("Total Bandwidth: %.2f" % bandwidthTotal)
