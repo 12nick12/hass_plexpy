@@ -34,7 +34,6 @@ for i in range(0, stream_count):
     user = decoded['response']['data']['sessions'][i]['user']
     bandwidth = decoded['response']['data']['sessions'][i]['bandwidth']  
     bandwidthTotal = float(bandwidthTotal) + float(bandwidth) / 1024
-    print(transcode)
-    print(user)
+    print("Type of Stream: %s" % transcode)
+    print("User: %s:" % user)
 
-print("Total Bandwidth: %.2f" % bandwidthTotal)
